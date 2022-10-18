@@ -95,7 +95,7 @@ val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=4, 
 dict_args = vars(args)
 
 autoencoder = QuantizedClassifier(**dict_args)
-state_dict = torch.load("/home/alexandr_ko/quantised_sa_od/clevr10_sp")
+state_dict = torch.load(args.sa_state_dict)
 autoencoder.load_state_dict(state_dict=state_dict, strict=False)
 project_name = 'set_prediction_CLEVR'
 
