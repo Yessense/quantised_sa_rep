@@ -54,7 +54,7 @@ class QuantizedClassifier(pl.LightningModule):
             nn.Sigmoid()
         )
         self.mlp_prop = nn.Sequential(
-            nn.Linear(sum(nums), hidden_size),
+            nn.Linear(16 * len(nums), hidden_size),
             nn.ReLU(),
             nn.Linear(hidden_size, 19-3),
             # nn.Sigmoid()
@@ -77,6 +77,7 @@ class QuantizedClassifier(pl.LightningModule):
         x = self.slot_attention(x)
 
         props, coords, _ = self.quantizer(x)
+        # raise ValueError(f'{props.shape}, {coords.shape}')
         # props -> (bs, 10, 48) if 16,16,16
         # coords -> (bs, 10, 64)
         coords = x
