@@ -158,7 +158,7 @@ class QuantizedClassifier(pl.LightningModule):
         return metrics['loss']
 
     def validation_step(self, batch, batch_idx):
-        metrics, ap_metrics = self.step(batch, batch_idx)
+        metrics, ap_metrics = self.step(batch, batch_idx, mode='Validation')
         self.log('validation perf', metrics, on_step=False, on_epoch=True)
         if batch_idx == 1:
             self.log('val ap metrics', ap_metrics,
@@ -167,9 +167,9 @@ class QuantizedClassifier(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         metrics, ap_metrics = self.step(batch, batch_idx, mode='Test')
-        self.log('validation perf', metrics, on_step=False, on_epoch=True)
-        self.log('val ap metrics', ap_metrics,
-                    on_step=False, on_epoch=True)
+        self.log('test perf', metrics, on_step=True, on_epoch=True)
+        self.log('test ap metrics', ap_metrics,
+                    on_step=True, on_epoch=True)
         return metrics['loss']
 
     def configure_optimizers(self):

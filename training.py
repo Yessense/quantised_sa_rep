@@ -14,6 +14,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint, StochasticWeightAveraging
 from pytorch_lightning.callbacks import LearningRateMonitor
+from pytorch_lightning  import seed_everything
 
 from argparse import ArgumentParser
 
@@ -61,9 +62,7 @@ args = parser.parse_args()
 # Random
 # ------------------------------------------------------------
 
-torch.manual_seed(args.seed)
-random.seed(args.seed)
-np.random.seed(args.seed)
+seed_everything(args.seed, workers=True)
 
 # ------------------------------------------------------------
 # Logger
@@ -84,8 +83,8 @@ val_dataset = CLEVR(images_path=os.path.join(args.train_path, 'images', 'val'),
                     max_objs=10)
 
 
-train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=16, shuffle=True, drop_last=True)
-val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=16, shuffle=False, drop_last=True)
+train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=4, shuffle=True, drop_last=True)
+val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=4, shuffle=False, drop_last=True)
 
 # ------------------------------------------------------------
 # Load model
@@ -108,7 +107,7 @@ monitor = 'Validation MSE'
 
 # checkpoints
 save_top_k = 1
-checkpoint_callback = ModelCheckpoint(every_n_epochs=10)
+checkpoint_callback = ModelCheckpoint(save_top_k=1, filename='best', auto_insert_metric_name=False, verbose=True)
 
 # Learning rate monitor
 lr_monitor = LearningRateMonitor(logging_interval='step')
@@ -135,10 +134,15 @@ trainer = pl.Trainer(gpus=gpus,
                      max_epochs=args.max_epochs,
                      profiler=profiler,
                      callbacks=callbacks,
-                     logger=wandb_logger, precision=16)
+                     logger=wandb_logger, 
+                     precision=16,
+                     deterministic=False)
+
 
 if not len(args.from_checkpoint):
     args.from_checkpoint = None
 
 # Train
 trainer.fit(autoencoder, train_dataloaders=train_loader, val_dataloaders=val_loader, ckpt_path=args.from_checkpoint)
+# Test
+trainer.test(dataloaders=val_loader, ckpt_path=None)
