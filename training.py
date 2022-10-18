@@ -135,7 +135,7 @@ trainer = pl.Trainer(gpus=gpus,
                      max_epochs=args.max_epochs,
                      profiler=profiler,
                      callbacks=callbacks,
-                     logger=wandb_logger)
+                     logger=wandb_logger, precision=16)
 
 if not len(args.from_checkpoint):
     args.from_checkpoint = None
