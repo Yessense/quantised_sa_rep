@@ -47,6 +47,7 @@ program_parser.add_argument("--batch_size", type=int, default=2)
 program_parser.add_argument("--from_checkpoint", type=str, default='')
 program_parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
 program_parser.add_argument("--nums", type=int, nargs='+')
+program_parser.add_argument("--sa_state_dict", type=str, default='./clevr10_sp')
 
 
 # Add model specific args
