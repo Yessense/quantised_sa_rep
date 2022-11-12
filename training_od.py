@@ -18,7 +18,6 @@ from pytorch_lightning import seed_everything
 from argparse import ArgumentParser
 
 from datasets import CLEVR
-from models import QuantizedClassifier
 from models import SlotAttentionAE
 
 # ------------------------------------------------------------
@@ -94,10 +93,7 @@ val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=arg
 # model
 dict_args = vars(args)
 
-autoencoder = QuantizedClassifier(**dict_args)
-if args.pretrained:
-    state_dict = torch.load(args.sa_state_dict)
-    autoencoder.load_state_dict(state_dict=state_dict, strict=False)
+autoencoder = SlotAttentionAE(**dict_args)
 
 project_name = 'object_discovery_CLEVR'
 
@@ -130,11 +126,13 @@ callbacks = [
 # Trainer
 # ------------------------------------------------------------
 # trainer parameters
-profiler = 'simple'  # 'simple'/'advanced'/None
-gpus = [args.gpus]
+profiler = None  # 'simple'/'advanced'/None
+accelerator = 'gpu'
+devices = [int(args.devices)]
 
 # trainer
-trainer = pl.Trainer(gpus=gpus,
+trainer = pl.Trainer(accelerator='gpu',
+                     devices=devices,
                      max_epochs=args.max_epochs,
                      profiler=profiler,
                      callbacks=callbacks,
