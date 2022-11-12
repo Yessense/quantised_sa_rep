@@ -7,14 +7,12 @@ import os
 class SlotAttentionLogger(pl.Callback):
     def __init__(self, val_samples, num_samples=8, save_path="./", name="example"):
         super().__init__()
-        print(type(val_samples))
-        print(val_samples.shape)
-        self.val_samples = val_samples[:num_samples]
+        self.val_samples = val_samples['image'][:num_samples]
+        print(f'Shape of val_samples: {val_samples.shape}\n')
         self.save_path = save_path
         self.name = name
 
     def on_validation_epoch_end(self, trainer, pl_module):
-        print(self.val_samples.shape)
         val_samples = self.val_samples.to(device=pl_module.device)
         result, recons, _= pl_module(val_samples)
         trainer.logger.experiment.log({
