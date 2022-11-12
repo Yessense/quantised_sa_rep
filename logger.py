@@ -14,6 +14,7 @@ class SlotAttentionLogger(pl.Callback):
         self.name = name
 
     def on_validation_epoch_end(self, trainer, pl_module):
+        print(self.val_samples.shape)
         val_samples = self.val_samples.to(device=pl_module.device)
         result, recons, _= pl_module(val_samples)
         trainer.logger.experiment.log({
