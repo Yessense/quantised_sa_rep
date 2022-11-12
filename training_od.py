@@ -112,7 +112,7 @@ checkpoint_callback = ModelCheckpoint(save_top_k=1, filename='best',
 # Learning rate monitor
 lr_monitor = LearningRateMonitor(logging_interval='step')
 
-logger_callback = SlotAttentionLogger(val_samples=next(iter(val_dataset)))
+logger_callback = SlotAttentionLogger(val_samples=next(iter(val_loader)))
 
 callbacks = [
     checkpoint_callback,
