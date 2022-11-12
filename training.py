@@ -49,6 +49,7 @@ program_parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
 program_parser.add_argument("--nums", type=int, nargs='+')
 program_parser.add_argument("--sa_state_dict", type=str, default='./clevr10_sp')
 program_parser.add_argument("--pretrained", type=bool, default=True)
+program_parser.add_argument("--num_workers", type=int, default=4)
 
 
 # Add model specific args
