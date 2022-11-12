@@ -86,6 +86,9 @@ train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers
 val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=args.num_workers, shuffle=False,
                         drop_last=True)
 
+val_samples = next(iter(val_loader))
+logger = SlotAttentionLogger(val_samples)
+
 # ------------------------------------------------------------
 # Load model
 # ------------------------------------------------------------
