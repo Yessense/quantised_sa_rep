@@ -18,9 +18,9 @@ class QuantizedClassifier(pl.LightningModule):
     """
 
     def __init__(self, resolution=(128, 128),
-                 num_slots=10, num_iters=4, in_channels=3,
+                 num_slots=10, num_iters=3, in_channels=3,
                  hidden_size=64, slot_size=64,
-                 lr=0.00035, coord_scale=1., nums=[8, 8, 8, 8], **kwargs):
+                 lr=0.00035, coord_scale=1., nums=[8, 3, 2, 2], **kwargs):
         super().__init__()
         self.resolution = resolution
         self.num_slots = num_slots
@@ -43,9 +43,6 @@ class QuantizedClassifier(pl.LightningModule):
         )
         self.slot_attention = SlotAttentionBase(
             num_slots=num_slots, iters=num_iters, dim=slot_size, hidden_dim=slot_size*2)
-        # state_dict = torch.load("clevr10_sp")
-        # state_dict = {key[len('slot_attention.'):]:state_dict[key] for key in state_dict if key.startswith('slot_attention')}
-        # print(len(state_dict))
 
         self.mlp_coords = nn.Sequential(
             nn.Linear(slot_size, hidden_size),

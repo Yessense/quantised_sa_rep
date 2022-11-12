@@ -48,6 +48,7 @@ program_parser.add_argument("--from_checkpoint", type=str, default='')
 program_parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
 program_parser.add_argument("--nums", type=int, nargs='+')
 program_parser.add_argument("--sa_state_dict", type=str, default='./clevr10_sp')
+program_parser.add_argument("--pretrained", type=bool, default=True)
 
 
 # Add model specific args
@@ -95,8 +96,10 @@ val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=4, 
 dict_args = vars(args)
 
 autoencoder = QuantizedClassifier(**dict_args)
-state_dict = torch.load(args.sa_state_dict)
-autoencoder.load_state_dict(state_dict=state_dict, strict=False)
+if args.pretrained:
+    state_dict = torch.load(args.sa_state_dict)
+    autoencoder.load_state_dict(state_dict=state_dict, strict=False)
+
 project_name = 'set_prediction_CLEVR'
 
 wandb_logger = WandbLogger(project='set_prediction_CLEVR', name=f'nums {args.nums!r} s {args.seed}')
