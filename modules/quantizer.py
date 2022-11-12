@@ -42,7 +42,7 @@ def sample_gumbel(shape, eps=1e-20):
         
 class CoordQuantizer(nn.Module):
     # def __init__(self, total_embeds=36, embeds_slices=[0, 9, 18, 27, None], nums=[9, 9, 9, 9]):
-    def __init__(self, nums=[8, 8, 8, 8]):
+    def __init__(self, nums=[8, 3, 2, 2]):
         super().__init__()
         self.num_steps = 10
         self.grid1 = nn.Parameter(torch.Tensor(get_grid(self.num_steps))[:, :, :], requires_grad=False) #[4:5, :, :]
