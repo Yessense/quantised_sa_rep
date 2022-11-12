@@ -58,7 +58,6 @@ class SlotAttentionAE(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, inputs):
-        print(inputs.shape)
         x = self.encoder(inputs)
         x = self.enc_emb(x)
 
