@@ -132,7 +132,7 @@ devices = [int(args.devices)]
 
 # trainer
 trainer = pl.Trainer(accelerator='gpu',
-                     devices=0,
+                     devices=[0],
                      max_epochs=args.max_epochs,
                      profiler=profiler,
                      callbacks=callbacks,
