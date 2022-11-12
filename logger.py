@@ -7,6 +7,7 @@ import os
 class SlotAttentionLogger(pl.Callback):
     def __init__(self, val_samples, num_samples=8, save_path="./", name="example"):
         super().__init__()
+        print(val_samples)
         self.val_samples = val_samples['image'][:num_samples]
         print(f'Shape of val_samples: {self.val_samples.shape}\n')
         self.save_path = save_path
