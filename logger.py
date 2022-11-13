@@ -22,4 +22,4 @@ class SlotAttentionLogger(pl.Callback):
             f'{i} slot': [wandb.Image(x / 2 + 0.5) for x in torch.clamp(recons[:, i], -1, 1)]
             for i in range(pl_module.num_slots)
         })
-        torch.save(pl_module.state_dict(), os.path.join(self.save_path, f"{self.name}.pth"))
+        # torch.save(pl_module.state_dict(), os.path.join(self.save_path, f"{self.name}.pth"))
