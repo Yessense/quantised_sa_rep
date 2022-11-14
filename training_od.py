@@ -98,7 +98,7 @@ autoencoder = SlotAttentionAE(**dict_args)
 
 project_name = 'object_discovery_CLEVR'
 
-wandb_logger = WandbLogger(project=project_name, name=f'nums {args.nums!r} s {args.seed} kl {args.beta}')
+wandb_logger = WandbLogger(project=project_name, name=f'nums {args.nums!r} s {args.seed} kl {args.beta}', log_model=True)
 # ------------------------------------------------------------
 # Callbacks
 # ------------------------------------------------------------
@@ -109,7 +109,7 @@ monitor = 'Validation MSE'
 save_top_k = 1
 checkpoint_callback = ModelCheckpoint(save_top_k=1, filename='best',
                                       auto_insert_metric_name=True, verbose=True)
-
+every_epoch_callback = ModelCheckpoint(every_n_epochs=10)
 # Learning rate monitor
 lr_monitor = LearningRateMonitor(logging_interval='step')
 
@@ -118,6 +118,7 @@ logger_callback = SlotAttentionLogger(val_samples=next(iter(val_loader)))
 callbacks = [
     checkpoint_callback,
     logger_callback,
+    every_epoch_callback,
     # swa,
     # early_stop_callback,
     lr_monitor,
