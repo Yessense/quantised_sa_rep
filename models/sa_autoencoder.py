@@ -119,7 +119,7 @@ class SlotAttentionAE(pl.LightningModule):
         self.log('Validation MSE', loss)
         self.log('Validation KL', kl_loss)
 
-        if self.batch_idx == 0:
+        if batch_idx == 0:
             imgs = batch['image']
             result, recons, _ = self(imgs[:8])
             self.trainer.logger.experiment.log({
