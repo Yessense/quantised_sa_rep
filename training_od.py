@@ -45,7 +45,7 @@ program_parser.add_argument("--from_checkpoint", type=str, default='')
 program_parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
 program_parser.add_argument("--nums", type=int, nargs='+')
 program_parser.add_argument("--sa_state_dict", type=str, default='./clevr7_od')
-program_parser.add_argument("--pretrained", type=bool, default=True)
+program_parser.add_argument("--pretrained", type=bool, default=False)
 program_parser.add_argument("--beta", type=float, default=2.)
 program_parser.add_argument("--num_workers", type=int, default=4)
 
