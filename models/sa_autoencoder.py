@@ -112,8 +112,8 @@ class SlotAttentionAE(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         loss, kl_loss = self.step(batch)
-        self.log('Validating MSE', loss)
-        self.log('Validating KL', kl_loss)
+        self.log('Validation MSE', loss)
+        self.log('Validation KL', kl_loss)
         return loss
 
     def configure_optimizers(self):
