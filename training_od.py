@@ -117,7 +117,7 @@ logger_callback = SlotAttentionLogger(val_samples=next(iter(val_loader)))
 
 callbacks = [
     checkpoint_callback,
-    logger_callback,
+    # logger_callback,
     # every_epoch_callback,
     # swa,
     # early_stop_callback,
