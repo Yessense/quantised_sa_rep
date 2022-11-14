@@ -121,8 +121,8 @@ class SlotAttentionAE(pl.LightningModule):
         self.log('Validation KL', kl_loss)
 
         if batch_idx == 0:
-            imgs = batch['image']
-            result, recons, _ = self(imgs[:8])
+            imgs = batch['image'][:8]
+            result, recons, _ = self(imgs)
             self.trainer.logger.experiment.log({
                 'images': [wandb.Image(x / 2 + 0.5) for x in torch.clamp(imgs, -1, 1)],
                 'reconstructions': [wandb.Image(x / 2 + 0.5) for x in torch.clamp(result, -1, 1)]
