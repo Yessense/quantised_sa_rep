@@ -98,8 +98,8 @@ class SlotAttentionAE(pl.LightningModule):
         optimizer = optimizer.optimizer
         
         loss, kl_loss = self.step(batch)
-        self.log('training MSE', loss)
-        self.log('training KL', kl_loss)
+        self.log('Training MSE', loss)
+        self.log('Training KL', kl_loss)
 
         loss = loss + kl_loss * self.beta
         optimizer.zero_grad()
@@ -112,8 +112,8 @@ class SlotAttentionAE(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         loss, kl_loss = self.step(batch)
-        self.log('validating MSE', loss, on_step=False, on_epoch=True)
-        self.log('validating KL', kl_loss, on_step=False, on_epoch=True)
+        self.log('Validating MSE', loss, on_step=False, on_epoch=True)
+        self.log('Validating KL', kl_loss, on_step=False, on_epoch=True)
         return loss
 
     def configure_optimizers(self):
