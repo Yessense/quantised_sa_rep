@@ -105,7 +105,8 @@ if args.pretrained:
 
 project_name = 'set_prediction_CLEVR'
 
-wandb_logger = WandbLogger(project='set_prediction_CLEVR', name=f'nums {args.nums!r} s {args.seed}')
+wandb_logger = WandbLogger(project='set_prediction_CLEVR', name=f'nums {args.nums!r} s {args.seed}', log_model=True)
+
 # ------------------------------------------------------------
 # Callbacks
 # ------------------------------------------------------------
