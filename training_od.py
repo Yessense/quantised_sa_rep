@@ -98,7 +98,8 @@ autoencoder = SlotAttentionAE(**dict_args)
 
 project_name = 'object_discovery_CLEVR'
 
-wandb_logger = WandbLogger(project=project_name, name=f'nums {args.nums!r} s {args.seed} kl {args.beta}', log_model=True)
+wandb_logger = WandbLogger(project=project_name, name=f'nums {args.nums!r} s {args.seed} kl {args.beta}',
+                           log_model=True)
 # ------------------------------------------------------------
 # Callbacks
 # ------------------------------------------------------------
@@ -107,8 +108,7 @@ monitor = 'Validation MSE'
 
 # checkpoints
 save_top_k = 1
-checkpoint_callback = ModelCheckpoint(monitor=monitor, save_top_k=1, filename='best',
-                                      auto_insert_metric_name=True, verbose=True)
+checkpoint_callback = ModelCheckpoint(monitor=monitor, save_top_k=save_top_k)
 every_epoch_callback = ModelCheckpoint(every_n_epochs=10, monitor=monitor)
 # Learning rate monitor
 lr_monitor = LearningRateMonitor(logging_interval='step')
@@ -123,7 +123,6 @@ callbacks = [
     # early_stop_callback,
     lr_monitor,
 ]
-
 
 # if args.pretrained:
 #     state_dict = torch.load(args.sa_state_dict)
