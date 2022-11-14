@@ -98,7 +98,7 @@ autoencoder = SlotAttentionAE(**dict_args)
 
 project_name = 'object_discovery_CLEVR'
 
-wandb_logger = WandbLogger(project=project_name, name=f'nums {args.nums!r} s {args.seed}')
+wandb_logger = WandbLogger(project=project_name, name=f'nums {args.nums!r} s {args.seed} kl {args.beta}')
 # ------------------------------------------------------------
 # Callbacks
 # ------------------------------------------------------------
