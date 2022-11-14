@@ -124,9 +124,9 @@ callbacks = [
 ]
 
 
-# if args.pretrained:
-state_dict = torch.load(args.sa_state_dict)
-autoencoder.load_state_dict(state_dict=state_dict, strict=False)
+if args.pretrained:
+    state_dict = torch.load(args.sa_state_dict)
+    autoencoder.load_state_dict(state_dict=state_dict, strict=False)
 
 # ------------------------------------------------------------
 # Trainer
