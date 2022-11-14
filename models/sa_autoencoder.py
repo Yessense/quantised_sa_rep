@@ -1,6 +1,7 @@
 import pytorch_lightning as pl
 import torch
-from pytorch_lightning.loggers import wandb
+import wandb
+
 from torch import nn
 from torch.nn import functional as F
 from torch.optim import lr_scheduler
