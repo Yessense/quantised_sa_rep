@@ -107,9 +107,9 @@ monitor = 'Validation MSE'
 
 # checkpoints
 save_top_k = 1
-checkpoint_callback = ModelCheckpoint(save_top_k=1, filename='best',
+checkpoint_callback = ModelCheckpoint(monitor=monitor, save_top_k=1, filename='best',
                                       auto_insert_metric_name=True, verbose=True)
-every_epoch_callback = ModelCheckpoint(every_n_epochs=10)
+every_epoch_callback = ModelCheckpoint(every_n_epochs=10, monitor=monitor)
 # Learning rate monitor
 lr_monitor = LearningRateMonitor(logging_interval='step')
 
