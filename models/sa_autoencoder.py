@@ -15,8 +15,8 @@ class SlotAttentionAE(pl.LightningModule):
     """
     def __init__(self, 
         resolution=(128, 128), 
-        num_slots=6, 
-        num_iters=3, 
+        num_slots=7,
+        num_iters=3,
         in_channels=3, 
         slot_size=64, 
         hidden_size=64,
@@ -31,13 +31,17 @@ class SlotAttentionAE(pl.LightningModule):
         self.in_channels = in_channels
         self.slot_size = slot_size
         self.hidden_size = hidden_size
+
+        # Encoder
         self.encoder = nn.Sequential(
             nn.Conv2d(in_channels, hidden_size, kernel_size=5, padding=(2, 2)), nn.ReLU(),
             *[nn.Sequential(nn.Conv2d(hidden_size, hidden_size, kernel_size=5, padding=(2, 2)), nn.ReLU()) for _ in range(3)]
             )
         self.decoder_initial_size = (8, 8)
 
+        # Decoder
         self.decoder = Decoder()
+
         self.enc_emb = PosEmbeds(64, self.resolution)
         self.dec_emb = PosEmbeds(64, self.decoder_initial_size)
 
