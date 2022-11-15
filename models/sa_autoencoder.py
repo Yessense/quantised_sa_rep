@@ -135,7 +135,7 @@ class SlotAttentionAE(pl.LightningModule):
             })
         return loss
 
-    def validation_epoch_end(self):
+    def validation_epoch_end(self, outputdata):
         save_path = "."
         torch.save(self.state_dict(), os.path.join(save_path, f"sa_od_full_training.pth"))
 
