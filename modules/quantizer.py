@@ -117,5 +117,7 @@ class CoordQuantizer(nn.Module):
         indices, kl_p, p_dis, p_samples = self.get_indices(inputs)
         quantized = self.use_indices(indices)
         
-        loss = (kl_c + kl_p) / 5
+        # loss = (kl_c + kl_p) / 5
+        # just properties
+        loss = (kl_p) / 5
         return quantized, quantized_coord, loss
