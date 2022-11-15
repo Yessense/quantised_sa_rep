@@ -136,8 +136,9 @@ class SlotAttentionAE(pl.LightningModule):
         return loss
 
     def validation_epoch_end(self, outputdata):
-        save_path = "."
-        torch.save(self.state_dict(), os.path.join(save_path, f"sa_od_full_training.pth"))
+        if self.current_epoch % 10 == 0:
+            save_path = "./sa_autoencoder_end_to_end"
+            torch.save(self.state_dict(), os.path.join(save_path, f"{self.current_epoch}_sa_od_full_training.pth"))
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
