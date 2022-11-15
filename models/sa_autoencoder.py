@@ -1,3 +1,5 @@
+import os
+
 import pytorch_lightning as pl
 import torch
 import wandb
@@ -132,6 +134,10 @@ class SlotAttentionAE(pl.LightningModule):
                 for i in range(self.num_slots)
             })
         return loss
+
+    def validation_epoch_end(self):
+        save_path = "."
+        torch.save(self.state_dict(), os.path.join(save_path, f"sa_od_full_training.pth"))
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)

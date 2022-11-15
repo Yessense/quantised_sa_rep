@@ -1,7 +1,6 @@
 import os
 import random
 import sys
-from logger import SlotAttentionLogger
 
 sys.path.append("..")
 
@@ -114,7 +113,7 @@ every_epoch_callback = ModelCheckpoint(every_n_epochs=10, monitor=monitor)
 # Learning rate monitor
 lr_monitor = LearningRateMonitor(logging_interval='step')
 
-logger_callback = SlotAttentionLogger(val_samples=next(iter(val_loader)))
+# logger_callback = SlotAttentionLogger(val_samples=next(iter(val_loader)))
 
 callbacks = [
     checkpoint_callback,
@@ -145,8 +144,8 @@ trainer = pl.Trainer(accelerator='gpu',
                      callbacks=callbacks,
                      logger=wandb_logger,
                      )
-                     #  precision=16,
-                     # deterministic=False)
+#  precision=16,
+# deterministic=False)
 
 if not len(args.from_checkpoint):
     args.from_checkpoint = None
