@@ -135,42 +135,12 @@ class SlotAttentionAE(pl.LightningModule):
             })
         return loss
 
-    def test_step(self, batch, batch_idx):
-        if batch_idx == 0:
-            x = self.encoder(batch['image'])
-            x = self.enc_emb(x)
-
-            x = spatial_flatten(x[0])
-            x = self.layer_norm(x)
-            x = self.mlp(x)
-
-            slots = self.slot_attention(x)
-
-            props, coords, kl_loss = self.coord_quantizer(slots)
-            slots = torch.cat([props, coords], dim=-1)
-            slots = self.slots_lin(slots)
-
-            x = spatial_broadcast(slots, self.decoder_initial_size)
-            x = self.dec_emb(x)
-            x = self.decoder(x[0])
-
-            x = x.reshape(batch['image'].shape[0], self.num_slots, *x.shape[1:])
-            recons, masks = torch.split(x, self.in_channels, dim=2)
-            masks = F.softmax(masks, dim=1)
-            recons = recons * masks
-            result = torch.sum(recons, dim=1)
-
-
     def validation_epoch_end(self, outputdata):
         if self.current_epoch % 10 == 0:
             save_path = "./sa_autoencoder_end_to_end"
-            self.trainer.save_checkpoint(
-                os.path.join(save_path, f"{self.current_epoch}_{self.beta}_sa_od_full_training.ckpt"))
+            self.trainer.save_checkpoint(os.path.join(save_path, f"{self.current_epoch}_{self.beta}_sa_od_pretrained.ckpt"))
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.lr)
         scheduler = lr_scheduler.OneCycleLR(optimizer, max_lr=self.lr, total_steps=self.num_steps, pct_start=0.05)
         return [optimizer], [scheduler]
-
-
-# asdf
