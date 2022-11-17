@@ -153,7 +153,7 @@ if not len(args.from_checkpoint):
     args.from_checkpoint = None
 
 # Train
-trainer.fit(autoencoder, train_dataloaders=train_loader, val_dataloaders=val_loader, ckpt_path=args.from_checkpoint)
+# trainer.fit(autoencoder, train_dataloaders=train_loader, val_dataloaders=val_loader, ckpt_path=args.from_checkpoint)
 # Test
 
 trainer.test(dataloaders=val_loader, ckpt_path=args.ckpt_test)
