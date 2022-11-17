@@ -1,7 +1,6 @@
 import os
 import random
-import sys
-from logger import SlotAttentionLogger
+import sys from logger import SlotAttentionLogger
 
 
 sys.path.append("..")
@@ -45,6 +44,7 @@ program_parser.add_argument("--train_path", type=str)
 # Experiment parameters
 program_parser.add_argument("--batch_size", type=int, default=2)
 program_parser.add_argument("--from_checkpoint", type=str, default='')
+program_parser.add_argument("--ckpt_test", type=str, default=None)
 program_parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
 program_parser.add_argument("--nums", type=int, nargs='+')
 program_parser.add_argument("--sa_state_dict", type=str, default='./clevr10_sp')
@@ -155,4 +155,5 @@ if not len(args.from_checkpoint):
 # Train
 trainer.fit(autoencoder, train_dataloaders=train_loader, val_dataloaders=val_loader, ckpt_path=args.from_checkpoint)
 # Test
-trainer.test(dataloaders=val_loader, ckpt_path=None)
+
+trainer.test(dataloaders=val_loader, ckpt_path=args.ckpt_test)
