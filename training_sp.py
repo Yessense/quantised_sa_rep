@@ -1,7 +1,7 @@
 import os
 import random
-import sys from logger import SlotAttentionLogger
-
+import sys
+from logger import SlotAttentionLogger
 
 sys.path.append("..")
 
@@ -13,14 +13,13 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint, StochasticWeightAveraging
 from pytorch_lightning.callbacks import LearningRateMonitor
-from pytorch_lightning  import seed_everything
+from pytorch_lightning import seed_everything
 
 from argparse import ArgumentParser
 
 from datasets import CLEVR
 from models import QuantizedClassifier
 from models import SlotAttentionAE
-
 
 # ------------------------------------------------------------
 # Constants
@@ -52,8 +51,6 @@ program_parser.add_argument("--pretrained", type=bool, default=False)
 program_parser.add_argument("--num_workers", type=int, default=4)
 program_parser.add_argument("--beta", type=float, default=2.)
 
-
-
 # Add model specific args
 # parser = SlotAttentionAE.add_model_specific_args(parent_parser=parser)
 
@@ -79,17 +76,18 @@ seed_everything(args.seed, workers=True)
 # ------------------------------------------------------------
 
 
-train_dataset = CLEVR(images_path=os.path.join(args.train_path, 'images', 'train'), 
-                    scenes_path= os.path.join(args.train_path, 'scenes', 'CLEVR_train_scenes.json'),
+train_dataset = CLEVR(images_path=os.path.join(args.train_path, 'images', 'train'),
+                      scenes_path=os.path.join(args.train_path, 'scenes', 'CLEVR_train_scenes.json'),
+                      max_objs=10)
+
+val_dataset = CLEVR(images_path=os.path.join(args.train_path, 'images', 'val'),
+                    scenes_path=os.path.join(args.train_path, 'scenes', 'CLEVR_val_scenes.json'),
                     max_objs=10)
 
-val_dataset = CLEVR(images_path=os.path.join(args.train_path, 'images', 'val'), 
-                    scenes_path= os.path.join(args.train_path, 'scenes', 'CLEVR_val_scenes.json'),
-                    max_objs=10)
-
-
-train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=args.num_workers, shuffle=True, drop_last=True)
-val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=args.num_workers, shuffle=False, drop_last=True)
+train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=args.num_workers, shuffle=True,
+                          drop_last=True)
+val_loader = DataLoader(val_dataset, batch_size=args.batch_size, num_workers=args.num_workers, shuffle=False,
+                        drop_last=True)
 
 # ------------------------------------------------------------
 # Load model
@@ -144,10 +142,9 @@ trainer = pl.Trainer(gpus=gpus,
                      max_epochs=args.max_epochs,
                      profiler=profiler,
                      callbacks=callbacks,
-                     logger=wandb_logger, 
-                   #  precision=16,
+                     logger=wandb_logger,
+                     #  precision=16,
                      deterministic=False)
-
 
 if not len(args.from_checkpoint):
     args.from_checkpoint = None
