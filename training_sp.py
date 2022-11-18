@@ -98,8 +98,8 @@ dict_args = vars(args)
 
 autoencoder = QuantizedClassifier(**dict_args)
 if args.pretrained:
-    state_dict = torch.load(args.sa_state_dict)
-    autoencoder.load_state_dict(state_dict=state_dict, strict=False)
+    # state_dict = torch.load(args.sa_state_dict)['state_']
+    autoencoder.load_from_checkpoint(args.sa_state_dict)
 
 project_name = 'set_prediction_CLEVR'
 
